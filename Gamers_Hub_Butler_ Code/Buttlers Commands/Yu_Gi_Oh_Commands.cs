@@ -11,7 +11,7 @@ using Discord.Webhook;
 using Discord.WebSocket;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
-using Gamers_Hub_Butler__Code.APIS;
+
 
 namespace Gamers_Hub_Butler__Code.Buttlers_Commands
 {
@@ -34,8 +34,15 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
             await ReplyAsync("Good day the tournament will be starting soon...");
         }
 
+        [Command("cards")]
 
-     
+        public async Task Name()
+        {
+           
+         
+
+           
+        }
     }
 
 }
