@@ -2,4 +2,4 @@
 discord bot made with c#
 
 **Directly pulling cards from **
-**[YGOPRO][https://db.ygoprodeck.com/api-guide/]**
+**[YGOPRO](https://db.ygoprodeck.com/api-guide/)**
