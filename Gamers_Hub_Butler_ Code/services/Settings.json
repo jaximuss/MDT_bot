@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "Default" : "server=localhost;database=mdtbot;user=root;password=@6Nwachukwu12345;"
+  }
+}

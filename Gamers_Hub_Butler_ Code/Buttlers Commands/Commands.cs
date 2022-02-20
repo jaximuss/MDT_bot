@@ -136,6 +136,18 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
             }
         }
 
+        [Command("commands")]
+        public async Task Allcommands()
+        {
+            var embuild = new EmbedBuilder()
+                  .WithDescription($"Hello {Context.User.Username}  \nmy commands are  : \n[info (@username)],\n [NSFW(FOR NSFW CHANNELS ONLY)] \n [card info], \n [roles], \n [tournament].")
+                  .WithColor(36, 200, 200);
+                  
+            
+                 
+            var build = embuild.Build();
+            await Context.Channel.SendMessageAsync(null, false, build);
+        }
         
         public EmbedBuilder building()
         {

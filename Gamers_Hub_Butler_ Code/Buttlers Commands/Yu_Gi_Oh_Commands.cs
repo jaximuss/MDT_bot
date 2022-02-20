@@ -35,26 +35,7 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
             await ReplyAsync("Good day the tournament will be starting soon...");
         }
 
-        [Command("cards")]
-
-        public async Task Name()
-        {
-
-            HttpClient reddit = new HttpClient();
-            var response = await reddit.GetStringAsync("http://ddragon.leagueoflegends.com/cdn/12.4.1/data/en_US/champion/Aatrox.json");
-
-            var champion = Lol.FromJson(response);
-
-            if (champion == null)
-            {
-                await ReplyAsync("an error occured");
-                return;
-            }
-
-            await ReplyAsync($"please work aatrox : {champion.Data.Aatrox.Title} ");
-
-        }
-
+    
         [Command("card info")]
 
         public async Task called(string named = null)
@@ -80,10 +61,11 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
             var Level = card.Data[0].Level;
             var Attribute =  card.Data[0].Attribute;
 
-            if (type == "Spell Card" || type == "Trap card")
+            if (type == "Spell Card" || type == "Trap Card")
             {
                 EmbedBuilder embed = new EmbedBuilder()
                .WithDescription("BIO")
+               /*.WithImageUrl($"https://storage.googleapis.com/ygoprodeck.com/pics_small/{id}.jpg")*/
                .AddField("Name ", name, true)
                .AddField("ID : ", id, true)
                .AddField("Type : ", type, true)
@@ -130,8 +112,6 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
                    .AddField("Level : ", Level, true)
                    .AddField("Attribute : ", Attribute, true)
                    .AddField("Race : ", race, true)
-
-
                    .WithColor(36, 190, 200);
 
                 var ended = embed.Build();
@@ -140,5 +120,4 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
             }
         }
     }
-
 }

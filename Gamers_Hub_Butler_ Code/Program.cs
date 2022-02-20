@@ -9,6 +9,7 @@ using System.Reflection;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 
 namespace Gamers_Hub_Butler__Code
 {
@@ -19,10 +20,10 @@ namespace Gamers_Hub_Butler__Code
         private DiscordSocketClient _client;
         private CommandService _commands;
         private IServiceProvider _services;
-      
-        
+        public IConfiguration _configuration;
         public async Task GamersHubb()
         {
+            
             _client = new DiscordSocketClient();
             _commands = new CommandService();
             _services = new ServiceCollection().AddSingleton(_client).AddSingleton(_commands).AddHttpClient().BuildServiceProvider();
@@ -40,6 +41,16 @@ namespace Gamers_Hub_Butler__Code
             await Task.Delay(-1);//to stop the bot from closing
 
         }
+        public class ConfigurationHandler : Program
+        {
+           
+
+            public ConfigurationHandler(IConfiguration configuration)
+            {
+                _configuration = configuration;
+            }
+
+        }
 
         private Task _client_Log(LogMessage arg)
         {
@@ -52,6 +63,8 @@ namespace Gamers_Hub_Butler__Code
             _client.MessageReceived += HandleCommandAsync;
             //_client.ReactionAdded += ReactionAdded; // for roles
 
+           //for bulk messages being deleted _client.MessagesBulkDeleted;
+            
             _client.ChannelCreated += OnChannelCreated;
 
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
