@@ -1,4 +1,5 @@
-# YU-GI-OH DISCORD BOT C#
+## YU-GI-OH DISCORD BOT C##
 discord bot made with c#
-mostly for nsfw commands
-more to be added in the future
+
+**Directly pulling cards from **
+**[YGOPRO][https://db.ygoprodeck.com/api-guide/]**
