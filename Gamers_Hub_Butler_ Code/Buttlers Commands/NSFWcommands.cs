@@ -11,11 +11,25 @@ using Discord.Webhook;
 using Discord.WebSocket;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
+using Gamers_Hub_Butler__Code.Modules;
+using Mdtbot.Data;
 
 namespace Gamers_Hub_Butler__Code.Buttlers_Commands
 {
-    public class NSFWcommands  : ModuleBase<SocketCommandContext>
+    public class NSFWcommands : MdtBotModuelBase
     {
+        private readonly IHttpClientFactory _httpClientFactory;
+
+        /// <summary>
+        /// intializes a new instance of <see cref="Commands"/> class.
+        /// </summary>
+        /// <param name="httpClientFactory">The <see cref="IHttpClientFactory"/>to be used.</param>
+        public NSFWcommands(IHttpClientFactory httpClientFactory, DataAccessLayer dataAccessLayer)
+            : base(dataAccessLayer)
+        {
+            _httpClientFactory = httpClientFactory;
+        }
+
         [Command("nsfw")]
         [Alias("hentai", "show me")]
         [RequireNsfw()]

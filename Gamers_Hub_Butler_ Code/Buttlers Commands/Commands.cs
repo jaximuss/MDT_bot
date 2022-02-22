@@ -11,12 +11,40 @@ using Discord.Webhook;
 using Discord.WebSocket;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
+using Gamers_Hub_Butler__Code.Modules;
+using Mdtbot.Data;
 
 namespace Gamers_Hub_Butler__Code.Buttlers_Commands
 {
-    public class Commands : ModuleBase<SocketCommandContext>
+    public class Commands : MdtBotModuelBase
     {
-       
+
+        private readonly IHttpClientFactory _httpClientFactory;
+
+        /// <summary>
+        /// intializes a new instance of <see cref="Commands"/> class.
+        /// </summary>
+        /// <param name="httpClientFactory">The <see cref="IHttpClientFactory"/>to be used.</param>
+        public Commands(IHttpClientFactory httpClientFactory, DataAccessLayer dataAccessLayer)
+            :base(dataAccessLayer)
+        {
+            _httpClientFactory = httpClientFactory;
+        }
+        
+        [Command("prefix")]
+        public async Task PrefixAsync(string prefix = null)
+        {
+            if (prefix == null)
+            {
+                var CurrenPrefix = DataAccessLayer.GetPrefix(Context.Guild.Id);
+                await ReplyAsync($"the prefix of this server is {CurrenPrefix}");
+                return;
+            }
+
+            await DataAccessLayer.SetPrefix(Context.Guild.Id, prefix);
+            await ReplyAsync($"The prefix has been set too {prefix}");
+        }
+
         [Command("help")]
         public async Task help()
         {
@@ -26,13 +54,15 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
         [Command("status")]
         public async Task status()
         {
-            await Context.Client.SetGameAsync("call by !/bot");
-            await Task.CompletedTask;
+            await Context.Client.SetGameAsync("call by !help");
+            
         }
 
         [Command("ping")]
         public async Task ping()
         {
+            await Context.Channel.TriggerTypingAsync();
+            await Task.Delay(2000);
             await ReplyAsync("pong\n " +
                 "hello master type butler help for more information");
         }
@@ -147,6 +177,15 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
                  
             var build = embuild.Build();
             await Context.Channel.SendMessageAsync(null, false, build);
+        }
+
+        
+
+        
+
+        public async Task embed(string title , string description)
+        {
+            await SendEmbedAsync(title, description);
         }
         
         public EmbedBuilder building()

@@ -13,10 +13,12 @@ using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using Gamers_Hub_Butler__Code.leagueofapis;
 using Gamers_Hub_Butler__Code.yugiohapis;
+using Gamers_Hub_Butler__Code.Modules;
+using Mdtbot.Data;
 
 namespace Gamers_Hub_Butler__Code.Buttlers_Commands
 {
-    public class Yu_Gi_Oh_Commands : ModuleBase<SocketCommandContext>
+    public class Yu_Gi_Oh_Commands : MdtBotModuelBase
     {
         private readonly IHttpClientFactory _httpClientFactory;
 
@@ -24,7 +26,9 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
         /// intializes a new instance of <see cref="Yu_Gi_Oh_Commands"/> class.
         /// </summary>
         /// <param name="httpClientFactory">The <see cref="IHttpClientFactory"/>to be used.</param>
-        public Yu_Gi_Oh_Commands(IHttpClientFactory httpClientFactory)
+        public Yu_Gi_Oh_Commands(IHttpClientFactory httpClientFactory, DataAccessLayer dataAccessLayer)
+            : base(dataAccessLayer)
+
         {
             _httpClientFactory = httpClientFactory;
         }
@@ -35,7 +39,7 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
             await ReplyAsync("Good day the tournament will be starting soon...");
         }
 
-    
+
         [Command("card info")]
 
         public async Task called(string named = null)
@@ -59,7 +63,7 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
             var Atk = card.Data[0].Atk;
             var Def = card.Data[0].Def;
             var Level = card.Data[0].Level;
-            var Attribute =  card.Data[0].Attribute;
+            var Attribute = card.Data[0].Attribute;
 
             if (type == "Spell Card" || type == "Trap Card")
             {
@@ -75,7 +79,7 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
 
                 await Context.Channel.SendMessageAsync(null, false, ended);
             }
-            else if(Archetype == null)
+            else if (Archetype == null)
             {
 
                 EmbedBuilder embed = new EmbedBuilder()
