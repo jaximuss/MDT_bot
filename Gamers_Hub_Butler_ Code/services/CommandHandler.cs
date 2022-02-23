@@ -69,6 +69,7 @@ namespace Gamers_Hub_Butler__Code.services
                 var context = new SocketCommandContext(_client, message);
 
                 await _service.ExecuteAsync(context, argPos, _provider);
+                
             });
             await Task.CompletedTask;
         }

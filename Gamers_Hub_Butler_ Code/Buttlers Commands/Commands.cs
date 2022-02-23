@@ -71,6 +71,10 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
 
         public async Task details()
         {
+
+            await Context.Channel.TriggerTypingAsync();
+            await Task.Delay(2000);
+
             var builder = new EmbedBuilder()
                 .WithThumbnailUrl(Context.User.GetAvatarUrl() ?? Context.User.GetDefaultAvatarUrl())
                 .WithDescription($"Hello!!! {Context.User.Username} these are you past results.")
@@ -134,6 +138,9 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
         [Command("info")]
         public async Task Info(SocketGuildUser Users = null)
         {
+
+            await Context.Channel.TriggerTypingAsync();
+            await Task.Delay(2000);
             if (Users == null)
             {
                 var embuild = new EmbedBuilder()

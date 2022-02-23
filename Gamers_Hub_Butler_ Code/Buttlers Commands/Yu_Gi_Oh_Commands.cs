@@ -44,10 +44,15 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
 
         public async Task called(string named = null)
         {
+       
             HttpClient yugioh = new HttpClient();
             var response = await yugioh.GetStringAsync($"https://db.ygoprodeck.com/api/v7/cardinfo.php?name={named ?? "Dark Magician"}");
 
             var card = Yugioh.FromJson(response);
+            
+
+            await Context.Channel.TriggerTypingAsync();
+            await Task.Delay(2000);
 
             if (card == null)
             {

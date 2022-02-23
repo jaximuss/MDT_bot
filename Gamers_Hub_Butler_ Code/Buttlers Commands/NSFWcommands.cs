@@ -37,6 +37,10 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
         {
             HttpClient reddit = new HttpClient();
             var result = await reddit.GetStringAsync($"https://reddit.com/r/{subreddit ?? "hentai"}/random.json?limit-1");
+
+            await Context.Channel.TriggerTypingAsync();
+            await Task.Delay(2000);
+
             if (!result.StartsWith("["))
             {
                 var message = await Context.Channel.SendMessageAsync("this does not exist man \n 🤨 what you trying to pull");
