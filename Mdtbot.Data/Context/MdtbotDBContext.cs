@@ -16,5 +16,7 @@ namespace Mdtbot.Data.Context
         }
          
         public DbSet<Guild> Guilds { get; set; }
+
+        public DbSet<TournamentID> tournamentIDs { get; set; }
     }
 }

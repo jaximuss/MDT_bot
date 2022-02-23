@@ -20,17 +20,18 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
     {
 
         private readonly IHttpClientFactory _httpClientFactory;
+        public readonly SocketReaction _emote;  
 
         /// <summary>
         /// intializes a new instance of <see cref="Commands"/> class.
         /// </summary>
         /// <param name="httpClientFactory">The <see cref="IHttpClientFactory"/>to be used.</param>
         public Commands(IHttpClientFactory httpClientFactory, DataAccessLayer dataAccessLayer)
-            :base(dataAccessLayer)
+            : base(dataAccessLayer)
         {
             _httpClientFactory = httpClientFactory;
         }
-        
+
         [Command("prefix")]
         public async Task PrefixAsync(string prefix = null)
         {
@@ -44,12 +45,37 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
             await DataAccessLayer.SetPrefix(Context.Guild.Id, prefix);
             await ReplyAsync($"The prefix has been set too {prefix}");
         }
+        [Command("Registration")]
+        [RequireUserPermission(ChannelPermission.ManageRoles)]
 
-        [Command("help")]
-        public async Task help()
+        public async Task register()
         {
-            await ReplyAsync("my commands are tournament and rankings");
+            
+            var enbuild = new EmbedBuilder()
+                 .WithDescription("*Hello everyone.* \n  I am creating a league for the tournaments we are going to be having, " +
+                 "\n it's very simple, for every tournament you participate in you get points\n" +
+                 "\n *5 points for winning the whole tournament\n" +
+                 "\n *4 points for coming second\n" +
+                 "\n *3 for coming third ... All the way to 1 for coming 5th.\n" +
+                 "\n You will also recieve 1 point for every match you win to reward those who go through the longer bracket.\n" +
+                 "\n So everyone should like this message. Thank you.\n")
+                 .WithImageUrl("https://cdn.cloudflare.steamstatic.com/steam/apps/1449850/capsule_616x353.jpg?t=1642554034")
+                 .WithColor(36, 200, 200);
+
+            var builds = enbuild.Build();
+            await Context.Channel.SendMessageAsync(null, false, builds);
+            var emoji = _emote;
+
+            if (emoji.Emote.Name == "👍")
+            {
+                var name = (emoji.User.Value as SocketGuildUser).Username;
+                var id = emoji.UserId;
+                await DataAccessLayer.JoinTournament(id, name);
+            }
+
+
         }
+
 
         [Command("status")]
         public async Task status()
@@ -60,11 +86,25 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
 
         [Command("ping")]
         public async Task ping()
-        {
+        {    
             await Context.Channel.TriggerTypingAsync();
             await Task.Delay(2000);
             await ReplyAsync("pong\n " +
-                "hello master type butler help for more information");
+                "hello master type butler help for more information @Ilikecarrots#2656 ");
+            var enbuild = new EmbedBuilder()
+                 .WithDescription("*Hello @Ilikecarrots#2656 .* \n  I am creating a league for the tournaments we are going to be having, " +
+                 "\n it's very simple, for every tournament you participate in you get points\n" +
+                 "\n *5 points for winning the whole tournament\n" +
+                 "\n *4 points for coming second\n" +
+                 "\n *3 for coming third ... All the way to 1 for coming 5th.\n" +
+                 "\nYou will also recieve 1 point for every match you win to reward those who go through the longer bracket.\n" +
+                 "\n So everyone should like this message. Thank you.\n")
+                 .WithImageUrl("https://cdn.cloudflare.steamstatic.com/steam/apps/1449850/capsule_616x353.jpg?t=1642554034")
+                 .WithColor(36, 200, 200);
+
+            var builds = enbuild.Build();
+            await Context.Channel.SendMessageAsync(null, false, builds);
+
         }
 
         [Command("myresult")]

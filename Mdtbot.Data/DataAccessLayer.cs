@@ -61,6 +61,22 @@ namespace Mdtbot.Data
 
             await context.SaveChangesAsync();
         }
+        public async Task JoinTournament(ulong id , string name)
+        {
+            using var context = _contextFactory.CreateDbContext();
+
+            var user = await context.tournamentIDs.FindAsync(id);
+            if (user != null)
+            {
+                user.ID = id;
+            }
+            else
+            {
+                context.Add(new TournamentID { ID = id, Name = name });
+            }
+            await context.SaveChangesAsync();
+        }
+
         public async Task DeleteGuild (ulong id)
         {
             using var context = _contextFactory.CreateDbContext();

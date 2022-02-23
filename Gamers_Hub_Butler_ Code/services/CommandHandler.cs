@@ -37,11 +37,23 @@ namespace Gamers_Hub_Butler__Code.services
         {
             _client.MessageReceived += OnMessageRecieved;
             _service.CommandExecuted += OnCommandExecuted;
-
+            _client.ReactionAdded += OnReactionAdded;
             await _service.AddModulesAsync(Assembly.GetEntryAssembly(), _provider);
         }
 
-        
+        private async Task OnReactionAdded(Cacheable<IUserMessage, ulong> arg1, ISocketMessageChannel arg2, SocketReaction arg3)
+        {
+            if ( arg3.MessageId != 946127689897615390)
+            {
+                return;
+            }
+            if (arg3.Emote.Name !="👍")
+            {
+                return;
+            }
+            var role = (arg2 as SocketGuildChannel).Guild.Roles.FirstOrDefault(x =>  x.Id== 946127481855938610);
+            await (arg3.User.Value as SocketGuildUser).AddRoleAsync(role);
+        }
 
         private Task OnCommandExecuted(Optional<CommandInfo> commandinfo, ICommandContext commandContext, IResult result)
         {
