@@ -20,7 +20,7 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
     {
 
         private readonly IHttpClientFactory _httpClientFactory;
-        public readonly SocketReaction _emote;  
+        public readonly SocketReaction _emote;
 
         /// <summary>
         /// intializes a new instance of <see cref="Commands"/> class.
@@ -32,83 +32,96 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
             _httpClientFactory = httpClientFactory;
         }
 
-        [Command("prefix")]
-        public async Task PrefixAsync(string prefix = null)
+        //[Command("prefix")]
+        //public async Task PrefixAsync(string prefix = null)
+        //{
+        //    if (prefix == null)
+        //    {
+        //        var CurrenPrefix = DataAccessLayer.GetPrefix(Context.Guild.Id);
+        //        await ReplyAsync($"the prefix of this server is {CurrenPrefix}");
+        //        return;
+        //    }
+
+        //    await DataAccessLayer.SetPrefix(Context.Guild.Id, prefix);
+        //    await ReplyAsync($"The prefix has been set too {prefix}");
+        //}
+
+       
+        [Command ("register")]
+        public async Task leagued()
         {
-            if (prefix == null)
+            var members = new  LeagueMembers();
+            var playersID = members.Members;
+            var usernames = members.names;
+            await ReplyAsync("MASTER DUEL LEAGUE");
+
+            for (int i = 0; i < playersID.Length; i++)
             {
-                var CurrenPrefix = DataAccessLayer.GetPrefix(Context.Guild.Id);
-                await ReplyAsync($"the prefix of this server is {CurrenPrefix}");
-                return;
+
+                var CurrentMember = DataAccessLayer.JoinTournament(playersID[i], usernames[i]);
+                
             }
-
-            await DataAccessLayer.SetPrefix(Context.Guild.Id, prefix);
-            await ReplyAsync($"The prefix has been set too {prefix}");
-        }
-        [Command("Registration")]
-        [RequireUserPermission(ChannelPermission.ManageRoles)]
-
-        public async Task register()
-        {
-            
-            var enbuild = new EmbedBuilder()
-                 .WithDescription("*Hello everyone.* \n  I am creating a league for the tournaments we are going to be having, " +
-                 "\n it's very simple, for every tournament you participate in you get points\n" +
-                 "\n *5 points for winning the whole tournament\n" +
-                 "\n *4 points for coming second\n" +
-                 "\n *3 for coming third ... All the way to 1 for coming 5th.\n" +
-                 "\n You will also recieve 1 point for every match you win to reward those who go through the longer bracket.\n" +
-                 "\n So everyone should like this message. Thank you.\n")
-                 .WithImageUrl("https://cdn.cloudflare.steamstatic.com/steam/apps/1449850/capsule_616x353.jpg?t=1642554034")
-                 .WithColor(36, 200, 200);
-
-            var builds = enbuild.Build();
-            await Context.Channel.SendMessageAsync(null, false, builds);
-            var emoji = _emote;
-
-            if (emoji.Emote.Name == "👍")
-            {
-                var name = (emoji.User.Value as SocketGuildUser).Username;
-                var id = emoji.UserId;
-                await DataAccessLayer.JoinTournament(id, name);
-            }
-
-
         }
 
 
+        [Command("Table")]
+        [Alias ("league")]
+        [RequireUserPermission(ChannelPermission.ManageMessages)]
+        public async Task asdw()
+        {
+            var points = 0;
+            var members = new LeagueMembers();
+            var playersID = members.Members;
+            var usernames = members.names;
+            await ReplyAsync("MASTER DUEL LEAGUE");
+            var embed = new EmbedBuilder()
+                .WithDescription("MASTER DUEL LEAGUE (updated!)")
+                .AddField($"1. {usernames[19]} ", points +18+ " points", false)
+                .AddField($"2.  {usernames[4]} ", points +16+ " points", false)
+                .AddField($"3.{usernames[1]} ", points + 13 + " points", false )
+                .AddField($"4.  {usernames[12]} ", points+ 3+  " points", false)
+                .AddField($"5. {usernames[16]} ", points +2 + " points", false)
+                .AddField($"6. {usernames[9]} ", points +1+ " points", false)
+                .AddField($"7. {usernames[2]} ", points +   " points", false)
+                .AddField($"8. {usernames[14]} ", points +  " points", false)
+                .AddField($"9. {usernames[7]} ", points+  " points", false)
+                .AddField($"10. {usernames[6]} ", points+  " points", false)
+                .AddField($"11. {usernames[3]} ", points + " points", false)
+                .AddField($"12. {usernames[11]} ", points + " points", false)
+                .AddField($"13. {usernames[8]} ", points + " points", false)
+                .AddField($"14. {usernames[13]} ", points+ " points", false)
+                .AddField($"15. {usernames[0]} ", points + " points", false)
+                .AddField($"16. {usernames[15]} ", points + " points", false)
+                .AddField($"17. {usernames[10]} ", points +   " points", false)
+                .AddField($"18. {usernames[17]} ", points + " points", false)
+                .AddField($"18. {usernames[18]} ", points + " points", false)
+                .AddField($"18. {usernames[5]} ", points + " points", false)
+
+                .WithColor(Color.DarkBlue)
+                .Build();
+
+            await Context.Channel.SendMessageAsync(null, false, embed);
+
+            //for (int i = 0; i < playersID.Length; i++)
+            //{
+
+            //    var CurrentMember = DataAccessLayer.GetUsername(playersID[i], usernames[i]);
+            //    await ReplyAsync($"{i}. {CurrentMember}");
+            //}
+
+
+
+        }
+       
         [Command("status")]
         public async Task status()
         {
-            await Context.Client.SetGameAsync("call by !help");
-            
-        }
-
-        [Command("ping")]
-        public async Task ping()
-        {    
-            await Context.Channel.TriggerTypingAsync();
-            await Task.Delay(2000);
-            await ReplyAsync("pong\n " +
-                "hello master type butler help for more information @Ilikecarrots#2656 ");
-            var enbuild = new EmbedBuilder()
-                 .WithDescription("*Hello @Ilikecarrots#2656 .* \n  I am creating a league for the tournaments we are going to be having, " +
-                 "\n it's very simple, for every tournament you participate in you get points\n" +
-                 "\n *5 points for winning the whole tournament\n" +
-                 "\n *4 points for coming second\n" +
-                 "\n *3 for coming third ... All the way to 1 for coming 5th.\n" +
-                 "\nYou will also recieve 1 point for every match you win to reward those who go through the longer bracket.\n" +
-                 "\n So everyone should like this message. Thank you.\n")
-                 .WithImageUrl("https://cdn.cloudflare.steamstatic.com/steam/apps/1449850/capsule_616x353.jpg?t=1642554034")
-                 .WithColor(36, 200, 200);
-
-            var builds = enbuild.Build();
-            await Context.Channel.SendMessageAsync(null, false, builds);
+            await Context.Client.SetGameAsync("call by !commands");
 
         }
+
 
         [Command("myresult")]
-
         public async Task details()
         {
 
@@ -126,31 +139,33 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
             await ReplyAsync(null, false, build);
         }
 
-        [Command("roles")]
-        [Alias("role")]
-        public async Task Role(SocketGuildUser user = null)
-        {
-            if (user == null)
-            {
-                var role = building()
-                       .AddField("Your roles are :", string.Join(" \n", (Context.User as SocketGuildUser).Roles.Select(x => x.Mention)), true)
-                       .Build(); 
-                await ReplyAsync(null, false, role);
-            }
-            else
-            {
-                var role =new EmbedBuilder()
-                    .WithThumbnailUrl(user.GetAvatarUrl() ?? user.GetDefaultAvatarUrl())
-                .WithColor(44, 222, 207)
-                .WithCurrentTimestamp()
-                  .AddField("Your roles are :", string.Join(" \n", user.Roles.Select(x => x.Mention)), true)
-                  .Build();
-                await ReplyAsync(null, false, role);
-            }
+
+        //[Command("roles")]
+        //[Alias("role")]
+        //public async Task Role(SocketGuildUser user = null)
+        //{
+        //    if (user == null)
+        //    {
+        //        var role = building()
+        //               .AddField("Your roles are :", string.Join(" \n", (Context.User as SocketGuildUser).Roles.Select(x => x.Mention)), true)
+        //               .Build();
+        //        await ReplyAsync(null, false, role);
+        //    }
+        //    else
+        //    {
+        //        var role = new EmbedBuilder()
+        //            .WithThumbnailUrl(user.GetAvatarUrl() ?? user.GetDefaultAvatarUrl())
+        //        .WithColor(44, 222, 207)
+        //        .WithCurrentTimestamp()
+        //          .AddField("Your roles are :", string.Join(" \n", user.Roles.Select(x => x.Mention)), true)
+        //          .Build();
+        //        await ReplyAsync(null, false, role);
+        //    }
 
 
-          
-        }
+
+        //}
+
 
         [Command("delete")]
         [RequireUserPermission(ChannelPermission.ManageMessages)]
@@ -174,6 +189,7 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
             await message1.DeleteAsync();
             await message2.DeleteAsync();
         }
+
 
         [Command("info")]
         public async Task Info(SocketGuildUser Users = null)
@@ -213,37 +229,20 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
             }
         }
 
+
         [Command("commands")]
         public async Task Allcommands()
         {
             var embuild = new EmbedBuilder()
                   .WithDescription($"Hello {Context.User.Username}  \nmy commands are  : \n[info (@username)],\n [NSFW(FOR NSFW CHANNELS ONLY)] \n [card info], \n [roles], \n [tournament].")
                   .WithColor(36, 200, 200);
-                  
-            
-                 
+
+
+
             var build = embuild.Build();
             await Context.Channel.SendMessageAsync(null, false, build);
         }
 
-        
-
-        
-
-        public async Task embed(string title , string description)
-        {
-            await SendEmbedAsync(title, description);
-        }
-        
-        public EmbedBuilder building()
-        {
-            var buider = new EmbedBuilder()
-                .WithThumbnailUrl(Context.User.GetAvatarUrl() ?? Context.User.GetDefaultAvatarUrl())
-                .WithColor(44, 222, 207)
-                .WithCurrentTimestamp();
-             
-            return buider;
-        }
     }
 
 }

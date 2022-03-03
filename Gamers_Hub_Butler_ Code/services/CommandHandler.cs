@@ -38,8 +38,29 @@ namespace Gamers_Hub_Butler__Code.services
             _client.MessageReceived += OnMessageRecieved;
             _service.CommandExecuted += OnCommandExecuted;
             _client.ReactionAdded += OnReactionAdded;
+            //_client.JoinedGuild += OnJoinedGuild;
+            _client.UserJoined += OnJoinedServer;
             await _service.AddModulesAsync(Assembly.GetEntryAssembly(), _provider);
         }
+
+        private async Task OnJoinedServer(SocketGuildUser arg)
+        {
+            var channel = arg.Guild.DefaultChannel;
+            var user = arg.Username;
+          var welcome = await channel.SendMessageAsync($"Welcome to the server {user} please head on over to the annoucement channel to pick your role");
+           
+
+        }
+
+
+
+        //private async Task OnJoinedGuild(SocketGuild arg)
+        //{
+        //    //when a user joins a server fire this message and link them to the tournament
+        //   var  channel = arg as ITextCha nnel;
+        //    var user = arg.CurrentUser.Username;
+        //    await channel.SendMessageAsync($"Welcome to the server {user} please head on over to the annoucement channel to pick your role");
+        //}
 
         private async Task OnReactionAdded(Cacheable<IUserMessage, ulong> arg1, ISocketMessageChannel arg2, SocketReaction arg3)
         {
@@ -54,6 +75,7 @@ namespace Gamers_Hub_Butler__Code.services
             var role = (arg2 as SocketGuildChannel).Guild.Roles.FirstOrDefault(x =>  x.Id== 946127481855938610);
             await (arg3.User.Value as SocketGuildUser).AddRoleAsync(role);
         }
+
 
         private Task OnCommandExecuted(Optional<CommandInfo> commandinfo, ICommandContext commandContext, IResult result)
         {

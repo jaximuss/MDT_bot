@@ -43,6 +43,31 @@ namespace Mdtbot.Data
             }
             return guild.Prefix;
         }
+        //to get member maybe we just need the key which is just the id
+        public string GetUsername(ulong id , string name)
+        {
+            using var context = _contextFactory.CreateDbContext();
+            var user = context.tournamentIDs
+                .Find(id);
+
+            return user.Name;
+        }
+        public int GetRank(ulong id)
+        {
+            using var context = _contextFactory.CreateDbContext();
+            var user = context.tournamentIDs
+                .Find(id);
+
+            return user.Rank;
+        }
+        public int GetScore(ulong id)
+        {
+            using var context = _contextFactory.CreateDbContext();
+            var user = context.tournamentIDs
+                .Find(id);
+
+            return user.score;
+        }
         public async Task SetPrefix(ulong Id , string Prefix)
         {
             using var context = _contextFactory.CreateDbContext();
@@ -69,6 +94,7 @@ namespace Mdtbot.Data
             if (user != null)
             {
                 user.ID = id;
+                user.Name = name;
             }
             else
             {

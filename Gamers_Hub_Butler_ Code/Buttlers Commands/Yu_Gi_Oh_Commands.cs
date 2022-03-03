@@ -40,8 +40,6 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
         }
 
 
-
-
         [Command("card info")]
 
         public async Task called(string named = null)
@@ -72,11 +70,12 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
             var Level = card.Data[0].Level;
             var Attribute = card.Data[0].Attribute;
 
+
             if (type == "Spell Card" || type == "Trap Card")
-            {
+            {   
+                await Context.Channel.SendFileAsync(@$"/home/jaximus/mdtbot/yugiohimages/{id}.jpg");
                 EmbedBuilder embed = new EmbedBuilder()
                .WithDescription("BIO")
-               /*.WithImageUrl($"https://storage.googleapis.com/ygoprodeck.com/pics_small/{id}.jpg")*/
                .AddField("Name ", name, true)
                .AddField("ID : ", id, true)
                .AddField("Type : ", type, true)
@@ -84,11 +83,12 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
                .WithColor(36, 190, 200);
                 var ended = embed.Build();
 
+             
                 await Context.Channel.SendMessageAsync(null, false, ended);
             }
             else if (Archetype == null)
             {
-
+                await Context.Channel.SendFileAsync(@$"/home/jaximus/mdtbot/yugiohimages/{id}.jpg");
                 EmbedBuilder embed = new EmbedBuilder()
                    .WithDescription("BIO")
                    .AddField("Name ", name, true)
@@ -110,7 +110,7 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
             }
             else
             {
-
+                await Context.Channel.SendFileAsync(@$"/home/jaximus/mdtbot/yugiohimages/{id}.jpg");
                 EmbedBuilder embed = new EmbedBuilder()
                    .WithDescription("BIO")
                    .AddField("Name ", name, true)
