@@ -38,9 +38,14 @@ namespace Gamers_Hub_Butler__Code.services
             _client.MessageReceived += OnMessageRecieved;
             _service.CommandExecuted += OnCommandExecuted;
             _client.ReactionAdded += OnReactionAdded;
-            //_client.JoinedGuild += OnJoinedGuild;
             _client.UserJoined += OnJoinedServer;
+            _client.MessagesBulkDeleted += OnDeletedMessages;
             await _service.AddModulesAsync(Assembly.GetEntryAssembly(), _provider);
+        }
+
+        private Task OnDeletedMessages(IReadOnlyCollection<Cacheable<IMessage, ulong>> arg1, ISocketMessageChannel arg2)
+        {
+            throw new NotImplementedException();
         }
 
         private async Task OnJoinedServer(SocketGuildUser arg)
@@ -54,13 +59,6 @@ namespace Gamers_Hub_Butler__Code.services
 
 
 
-        //private async Task OnJoinedGuild(SocketGuild arg)
-        //{
-        //    //when a user joins a server fire this message and link them to the tournament
-        //   var  channel = arg as ITextCha nnel;
-        //    var user = arg.CurrentUser.Username;
-        //    await channel.SendMessageAsync($"Welcome to the server {user} please head on over to the annoucement channel to pick your role");
-        //}
 
         private async Task OnReactionAdded(Cacheable<IUserMessage, ulong> arg1, ISocketMessageChannel arg2, SocketReaction arg3)
         {

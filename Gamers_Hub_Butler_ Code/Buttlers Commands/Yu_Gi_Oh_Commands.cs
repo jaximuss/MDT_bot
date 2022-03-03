@@ -37,19 +37,21 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
         public async Task Tournament()
         {
             await ReplyAsync("Good day the tournament will be starting soon...");
+        
+        
         }
 
 
         [Command("card info")]
 
-        public async Task called(string named = null)
+        public async Task called(string named )
         {
-       
+
             HttpClient yugioh = new HttpClient();
-            var response = await yugioh.GetStringAsync($"https://db.ygoprodeck.com/api/v7/cardinfo.php?name={named ?? "Dark Magician"}");
+            var response = await yugioh.GetStringAsync($"https://db.ygoprodeck.com/api/v7/cardinfo.php?name={named}");
 
             var card = Yugioh.FromJson(response);
-            
+
 
             await Context.Channel.TriggerTypingAsync();
             await Task.Delay(2000);
@@ -72,7 +74,7 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
 
 
             if (type == "Spell Card" || type == "Trap Card")
-            {   
+            {
                 await Context.Channel.SendFileAsync(@$"/home/jaximus/mdtbot/yugiohimages/{id}.jpg");
                 EmbedBuilder embed = new EmbedBuilder()
                .WithDescription("BIO")
@@ -83,7 +85,7 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
                .WithColor(36, 190, 200);
                 var ended = embed.Build();
 
-             
+
                 await Context.Channel.SendMessageAsync(null, false, ended);
             }
             else if (Archetype == null)

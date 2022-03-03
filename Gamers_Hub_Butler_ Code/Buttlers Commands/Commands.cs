@@ -73,16 +73,17 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
             var members = new LeagueMembers();
             var playersID = members.Members;
             var usernames = members.names;
-            await ReplyAsync("MASTER DUEL LEAGUE");
+           
             var embed = new EmbedBuilder()
                 .WithDescription("MASTER DUEL LEAGUE (updated!)")
-                .AddField($"1. {usernames[19]} ", points +18+ " points", false)
-                .AddField($"2.  {usernames[4]} ", points +16+ " points", false)
-                .AddField($"3.{usernames[1]} ", points + 13 + " points", false )
-                .AddField($"4.  {usernames[12]} ", points+ 3+  " points", false)
-                .AddField($"5. {usernames[16]} ", points +2 + " points", false)
+                .WithImageUrl("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_736RDQovK0J4bnY5DC3zE7ZMJXv6Hvxvgw&usqp=CAU")
+                .AddField($"1. {usernames[4]} ", points +24+ " points", false)
+                .AddField($"2.  {usernames[19]} ", points +19+ " points", false)
+                .AddField($"3.{usernames[1]} ", points + 17 + " points", false)
+                .AddField($"4. {usernames[16]} ", points +13 + " points", false)
+                .AddField($"5.  {usernames[12]} ", points+ 12+  " points", false)
                 .AddField($"6. {usernames[9]} ", points +1+ " points", false)
-                .AddField($"7. {usernames[2]} ", points +   " points", false)
+                .AddField($"7. {usernames[10]} ", points+1 +   " points", false)
                 .AddField($"8. {usernames[14]} ", points +  " points", false)
                 .AddField($"9. {usernames[7]} ", points+  " points", false)
                 .AddField($"10. {usernames[6]} ", points+  " points", false)
@@ -92,12 +93,12 @@ namespace Gamers_Hub_Butler__Code.Buttlers_Commands
                 .AddField($"14. {usernames[13]} ", points+ " points", false)
                 .AddField($"15. {usernames[0]} ", points + " points", false)
                 .AddField($"16. {usernames[15]} ", points + " points", false)
-                .AddField($"17. {usernames[10]} ", points +   " points", false)
+                .AddField($"17. {usernames[2]} ", points +   " points", false)
                 .AddField($"18. {usernames[17]} ", points + " points", false)
                 .AddField($"18. {usernames[18]} ", points + " points", false)
                 .AddField($"18. {usernames[5]} ", points + " points", false)
-
-                .WithColor(Color.DarkBlue)
+                
+                .WithColor(Color.DarkGreen)
                 .Build();
 
             await Context.Channel.SendMessageAsync(null, false, embed);
